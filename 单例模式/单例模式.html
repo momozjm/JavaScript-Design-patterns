@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="btn">惰性单例模式</button>
+</body>
+<script>
+    var createLoginLayer = (function() {
+        var div;
+        // 立即执行函数在初始化时立即执行，只返回了function（只赋值），并且div是闭包访问的变量，一直存在
+        return function() {
+            debugger;
+            if(!div) {
+                div = document.createElement('div')
+                div.innerHTML = '我是惰性单例模式'
+                document.body.appendChild(div)
+            }
+            return div
+        }
+    })()
+    document.getElementById('btn').onclick = function() {
+        var loginLayer = new createLoginLayer()
+        loginLayer.say = function(name) {
+            console.log(name)
+        }
+        var loginLayer2 = new createLoginLayer()
+        loginLayer2.say('哈哈哈')
+    }
+</script>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<button id="btn">逻辑与模型抽离的单例模式</button>
+<body>
+
+</body>
+<script>
+    var getSingle = function (fn) {
+        var result
+        return function () {
+            return result || (result = fn.apply(this, arguments))
+        }
+    }
+
+    var createLoginLayer = function () {
+        console.log('实例化')
+        div = document.createElement('div')
+        div.innerHTML = '我是惰性单例模式'
+        document.body.appendChild(div)
+        return div
+    }
+
+    var createSingleLoginLayer = getSingle(createLoginLayer)
+
+    document.getElementById('btn').onclick = function() {
+        var loginLayer = createSingleLoginLayer()
+    }
+</script>
+
+</html>
