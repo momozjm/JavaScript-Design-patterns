@@ -11,13 +11,17 @@
 
 </body>
 <script>
+    // 闭包变量逻辑抽离出来
     var getSingle = function (fn) {
+        // Arguments对象实例arguments，它引用着函数的实参。这里arguments[0]就是fn
         var result
         return function () {
             return result || (result = fn.apply(this, arguments))
+            // return result || (result = fn())
         }
     }
 
+    // 只负责创建dom
     var createLoginLayer = function () {
         console.log('实例化')
         div = document.createElement('div')

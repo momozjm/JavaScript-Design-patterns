@@ -13,7 +13,6 @@
         var div;
         // 立即执行函数在初始化时立即执行，只返回了function（只赋值），并且div是闭包访问的变量，一直存在
         return function() {
-            debugger;
             if(!div) {
                 div = document.createElement('div')
                 div.innerHTML = '我是惰性单例模式'
@@ -30,5 +29,21 @@
         var loginLayer2 = new createLoginLayer()
         loginLayer2.say('哈哈哈')
     }
+
+    // 如果没有立即执行函数，执行loginlayer()没有闭包保存数据
+    // var createLoginLayer = function() {
+    //     var div
+    //     return function() {
+    //         if(!div) {
+    //             div = document.createElement('div')
+    //             div.innerHTML = '我是单例模式'
+    //             document.body.appendChild(div)
+    //         }
+    //     }
+    // }
+    // document.getElementById('btn').onclick = function() {
+    //     var loginlayer = new createLoginLayer()
+    //     loginlayer()
+    // }
 </script>
 </html>
