@@ -7,33 +7,57 @@
     <title>Document</title>
 </head>
 <button id="btn">逻辑与模型抽离的单例模式</button>
+
 <body>
 
 </body>
 <script>
     // 闭包变量逻辑抽离出来
-    var getSingle = function (fn) {
-        // Arguments对象实例arguments，它引用着函数的实参。这里arguments[0]就是fn
-        var result
-        return function () {
-            return result || (result = fn.apply(this, arguments))
-            // return result || (result = fn())
-        }
-    }
+    // var getSingle = function (fn) {
+    //     // Arguments对象实例arguments，它引用着函数的实参。这里arguments[0]就是fn
+    //     var result
+    //     return function () {
+    //         return result || (result = fn.apply(this, arguments))
+    //         // return result || (result = fn())
+    //     }
+    // }
 
-    // 只负责创建dom
-    var createLoginLayer = function () {
-        console.log('实例化')
-        div = document.createElement('div')
+    // // 只负责创建dom
+    // var createLoginLayer = function () {
+    //     console.log('实例化')
+    //     div = document.createElement('div')
+    //     div.innerHTML = '我是惰性单例模式'
+    //     document.body.appendChild(div)
+    //     return div
+    // }
+
+    // // 这一行要放在onclick外面
+    // var createSingleLoginLayer = getSingle(createLoginLayer)
+
+    // document.getElementById('btn').onclick = function () {
+    //     var loginLayer = createSingleLoginLayer()
+    // }
+
+
+    var createEle = function () {
+        var div = document.createElement('div')
         div.innerHTML = '我是惰性单例模式'
         document.body.appendChild(div)
         return div
     }
 
-    var createSingleLoginLayer = getSingle(createLoginLayer)
-
-    document.getElementById('btn').onclick = function() {
-        var loginLayer = createSingleLoginLayer()
+    var createLoginLayer = (function () {
+        var result;
+        // 立即执行函数在初始化时立即执行，只返回了function（只赋值），并且div是闭包访问的变量，一直存在
+        return function (fn) {
+            return result || (result = fn())
+        }
+    })()
+    document.getElementById('btn').onclick = function () {
+        // createLoginLayer(createEle) 这里是为了new 的实例都是同一个
+        var loginLayer = new createLoginLayer(createEle)
+        var loginLayer2 = new createLoginLayer(createEle)
+        console.log(loginLayer === loginLayer2)
     }
 </script>
 

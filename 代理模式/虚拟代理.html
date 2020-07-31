@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    // 负责生成图片元素并插入页面中
+    var imageFun = (
+        function () {
+            // var img = document.createElement('img');
+            var imgNode = new Image()
+            document.body.appendChild(imgNode)
+            return {
+                setSrc: function (src) {
+                    imgNode.src = src
+                }
+            }
+        }
+    )()
+    
+    // 判断加载有没有完成的逻辑
+    var proxyImg = (
+        function () {
+            var img = new Image()
+            img.onload = function () {
+                console.log('加载完成')
+                setTimeout(() => {
+                    imageFun.setSrc(this.src)
+                }, 1000)
+            }
+            return {
+                setSrc: function (src) {
+                    imageFun.setSrc('../images/loading.gif')
+                    // 等代理的图片加载完成后，将图片赋值给imageFun
+                    img.src = src
+                }
+            }
+        }
+    )()
+
+    proxyImg.setSrc('https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1596193643149&di=76f75ac0621e6be66a005462e86a525f&imgtype=0&src=http%3A%2F%2Fimage1.wulinsoso.com%2Fvector%2Fzcool%2F20140104%2F2223013798.jpg')
+    
+    // 1、执行代理的setSrc，设置loading
+    // 2、执行代理内部的img，并设置src
+    // 3、代理图片的src加载完成后，执行被代理的setSrc。
+</script>
+
+</html>
