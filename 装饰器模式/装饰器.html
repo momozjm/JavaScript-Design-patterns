@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    const Person = function() {
+        this.skill = function() {
+            console.log('我现在啥也不会')
+        }
+    }
+    
+    const Animal = function() {
+        this.skill = function() {
+            console.log('我是动物，我会个啥')
+        }
+    }
+
+    const addSkill = function(fun) {
+        this.skill = fun.skill
+        this.newSkill = function() {
+            console.log('我升级了，有新技能')
+        }
+        this.allSkill = function() {
+            this.skill()
+            this.newSkill()
+        }
+    }
+
+    const person = new Person()
+    const animal = new Animal()
+
+    const newPerson = new addSkill(person)
+    const newAnimal = new addSkill(animal)
+
+    newPerson.allSkill()
+    newAnimal.allSkill()
+
+    // 装饰器是公共的要自己加
+    // 继承是父类里是公共的
+</script>
+</html>
