@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    const Chain = function (fn) {
+        this.fn = fn;
+
+        this.setNext = function () {
+            fn()
+            return this
+        }
+
+        this.run = function () { 
+            console.log('开始')
+        }
+    }
+
+    const applyDevice = function () { console.log(1) }
+    const chainApplyDevice = new Chain(applyDevice);
+
+    const selectAddress = function () { console.log(2) }
+    const chainSelectAddress = new Chain(selectAddress);
+
+    const selectChecker = function () { console.log(3) }
+    const chainSelectChecker = new Chain(selectChecker);
+
+    // 运用责任链模式实现上边功能
+    chainApplyDevice.setNext(chainSelectAddress).setNext(chainSelectChecker);
+    chainApplyDevice.run();
+
+
+    /*
+    抽象处理者角色：定义处理方法，以配置是否具有下个节点(Handler)对象;
+    具体处理者角色：定义处理方法的具体执行逻辑，判断是否可以处理该请求，如果可以就处理（返回结果结束）；如果不行，就查看是有下个节点，有的话就传递给下家；
+    */
+
+
+</script>
+
+</html>
